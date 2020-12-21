@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 : ${SLEEP_LENGTH:=2}
 : ${TIMEOUT_LENGTH:=60}

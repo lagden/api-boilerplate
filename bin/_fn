@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 abort() {
 	printf "\n  \033[31mError: $@\033[0m\n\n" && exit 1
@@ -17,6 +17,6 @@ load_env() {
 	fi
 
 	set -a
-	source ${ENVFILE_BASE}
-	source ${ENVFILE_OPT}
+	. ${ENVFILE_BASE}
+	. ${ENVFILE_OPT}
 }

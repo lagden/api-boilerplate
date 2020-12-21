@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 DIR="$( cd -P "$( dirname "$0" )" && pwd )"
 
@@ -18,14 +18,6 @@ EOF
 exit 0
 }
 
-while getopts ":e:" o
-do
-	case ${o} in
-		e) OPT=$OPTARG ;;
-		*) usage ;;
-	esac
-done
-
 # Go to project root
 # cd $DIR
 # cd ..
@@ -33,6 +25,16 @@ done
 # Go to current directory
 CURR_FOLDER="$( pwd )"
 cd $CURR_FOLDER
+
+OPT=development
+
+while getopts ":e:" o
+do
+	case ${o} in
+		e) OPT=$OPTARG ;;
+		*) usage ;;
+	esac
+done
 
 # ENV File
 if test $OPT; then
@@ -48,16 +50,19 @@ ok "Running cmd: ${WATCH_CMD}"
 ENTR_FILE="$( which entr )"
 
 if test -f ${ENTR_FILE}; then
-	# while true; do
-	# 	find "${WATCH_FOLDERS}" -type f -not -path "${WATCH_IGNORES}" | entr -nrd ${WATCH_CMD}
-	# done
-	if test -z ${WATCH_IGNORES}; then
-		find ${WATCH_FOLDERS} -type f | entr -nrd ${WATCH_CMD}
-	else
-		find ${WATCH_FOLDERS} -type f -not -path ${WATCH_IGNORES} | entr -nrd ${WATCH_CMD}
-	fi
+	find ${WATCH_FOLDERS} -type f | entr -r ${WATCH_CMD}
 else
-	$($WATCH_CMD)
+	$(${WATCH_CMD})
 fi
+
+# if test -f ${ENTR_FILE}; then
+# 	if test -z "${WATCH_IGNORES}"; then
+# 		find ${WATCH_FOLDERS} -type f | entr -r ${WATCH_CMD}
+# 	else
+# 		find ${WATCH_FOLDERS} -type f -not -path "${WATCH_IGNORES}" | entr -r ${WATCH_CMD}
+# 	fi
+# else
+# 	$(${WATCH_CMD})
+# fi
 
 exit 0

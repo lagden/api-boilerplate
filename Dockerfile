@@ -1,5 +1,5 @@
 # APP Prod, Staging e Test
-FROM node:14.5-alpine3.12
+FROM node:14.15-alpine3.12
 
 LABEL maintainer="docker@lagden.in"
 

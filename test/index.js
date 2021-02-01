@@ -1,7 +1,7 @@
 'use strict'
 
 const test = require('ava')
-const app = require('./helpers/server')
+const app = require('./helper/server')
 
 test('hello', async t => {
 	const r = await app

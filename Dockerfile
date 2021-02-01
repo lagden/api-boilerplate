@@ -1,7 +1,7 @@
 # APP Prod, Staging e Test
 FROM node:14.15-alpine3.12
 
-LABEL maintainer="docker@lagden.in"
+LABEL maintainer="lagden@gmail.com"
 
 ARG NODE_ENV="production"
 ARG BASE="/home/node"

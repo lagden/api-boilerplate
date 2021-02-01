@@ -4,6 +4,7 @@ DIR="$( cd -P "$( dirname "$0" )" && pwd )"
 
 # Import functions
 . $DIR/_fn
+. $DIR/_env
 
 # Go to project root
 cd $DIR

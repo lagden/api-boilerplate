@@ -17,8 +17,7 @@ Existem 2 maneiras de trabalhar:
 - [Local](#local)
 
 
-Use o `degit` para fazer o `scaffolding` do projeto.  
-Entre no diretório do projeto:
+Use o `degit` para fazer o `scaffolding` do projeto:
 
 ```shell
 npx degit lagden/boilerplate-rest minha_api
@@ -64,11 +63,11 @@ Sempre que executar o `bin/deploy`, também será executado o `bin/image` que fa
 
 ### Local
 
-Instale as dependências e em seguida inicie a aplicação.
+Instale as dependências e inicie a aplicação:
 
 ```shell
 bin/zera
-bin/watch -e development
+bin/watch_local -e development
 ```
 
 Acesse o URL: [http://[::1]:5000/](http://[::1]:5000/).

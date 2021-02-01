@@ -1,17 +1,17 @@
 # entr
-FROM lagden/entr:4.6-alpine3.12 as entr
+FROM lagden/entr:4.7-alpine3.13 as entr
 
 LABEL autodelete="true"
-LABEL maintainer="docker@lagden.in"
+LABEL maintainer="lagden@gmail.com"
 
 # APP Dev
 FROM node:14.15-alpine3.12
 
-LABEL maintainer="docker@lagden.in"
+LABEL maintainer="lagden@gmail.com"
 
 ## If Docker Host is Mac or Windows
-ARG ARG_ENTR_INOTIFY_WORKAROUND=1
-ENV ENTR_INOTIFY_WORKAROUND=$ARG_ENTR_INOTIFY_WORKAROUND
+ARG ARG_ENTR_INOTIFY_WORKAROUND=0
+RUN test $ARG_ENTR_INOTIFY_WORKAROUND -eq 1 && . ENTR_INOTIFY_WORKAROUND=1 || echo "ENTR_INOTIFY_WORKAROUND unnecessary"
 
 ARG NODE_ENV="production"
 ARG BASE="/home/node"

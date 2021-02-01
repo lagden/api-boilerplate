@@ -7,7 +7,7 @@ services:
       context: ./
       args:
         NODE_ENV: ${NODE_ENV}
-        ARG_ENTR_INOTIFY_WORKAROUND: ${ARG_ENTR_INOTIFY_WORKAROUND:-1}
+        ARG_ENTR_INOTIFY_WORKAROUND: ${ARG_ENTR_INOTIFY_WORKAROUND}
     # depends_on:
     #   - seu_db_ou_dependencia
     command: >

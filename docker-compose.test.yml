@@ -1,4 +1,7 @@
 version: "3.7"
 services:
   app:
-    command: ["npm", "test"]
+    command: >
+      /bin/ash -c "
+        npm test
+      "

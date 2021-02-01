@@ -10,8 +10,10 @@ const middleware = []
 
 for (const file of files) {
 	const router = require(file)
-	middleware.push(router.routes())
-	middleware.push(router.allowedMethods({throw: true}))
+	middleware.push(
+		router.routes(),
+		router.allowedMethods({throw: true})
+	)
 }
 
 module.exports = compose(middleware)

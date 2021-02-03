@@ -11,7 +11,7 @@ LABEL maintainer="lagden@gmail.com"
 
 ## If Docker Host is Mac or Windows
 ARG ARG_ENTR_INOTIFY_WORKAROUND=0
-RUN test $ARG_ENTR_INOTIFY_WORKAROUND -eq 1 && . ENTR_INOTIFY_WORKAROUND=1 || echo "ENTR_INOTIFY_WORKAROUND unnecessary"
+RUN test $ARG_ENTR_INOTIFY_WORKAROUND -eq 1 && export ENTR_INOTIFY_WORKAROUND=1 || echo "ENTR_INOTIFY_WORKAROUND unnecessary"
 
 ARG NODE_ENV="production"
 ARG BASE="/home/node"

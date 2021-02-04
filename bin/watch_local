@@ -45,7 +45,7 @@ else
 fi
 
 ok "Watching folders: ${WATCH_FOLDERS}"
-ok "Ignoring folders: ${WATCH_IGNORES}"
+# ok "Ignoring folders: ${WATCH_IGNORES}"
 ok "Running cmd: ${WATCH_CMD}"
 
 ENTR_FILE="$( which entr )"

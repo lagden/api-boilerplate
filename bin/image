@@ -60,7 +60,7 @@ cat ${CURR_FOLDER}/.registry-passwd | docker login $REGISTRY --username $REGISTR
 docker push $TAG_IMAGE
 
 # Cleanup
-# docker rmi $( docker images -q -f "dangling=true" -f "label=autodelete=true" )
+# docker rmi $(docker images -q -f "dangling=true" -f "label=autodelete=true")
 
 ok "Build finalizado... Yeahh!!!"
 

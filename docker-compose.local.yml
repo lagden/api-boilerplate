@@ -1,15 +1,11 @@
 version: "3.7"
 services:
   app:
-    tty: true
     build:
       dockerfile: ${DOCKERFILE}
       context: ./
       args:
         NODE_ENV: ${NODE_ENV}
-        ARG_ENTR_INOTIFY_WORKAROUND: ${ARG_ENTR_INOTIFY_WORKAROUND}
-    # depends_on:
-    #   - seu_db_ou_dependencia
     command: >
       /bin/ash -c "
         bin/watch
@@ -20,3 +16,5 @@ services:
     volumes:
       - .:/home/node/app
       - /home/node/app/node_modules
+    # depends_on:
+    #   - seu_db_ou_dependencia

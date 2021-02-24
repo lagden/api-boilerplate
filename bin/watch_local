@@ -1,10 +1,9 @@
 #!/bin/bash
 
-DIR="$( cd -P "$( dirname "$0" )" && pwd )"
+DIR="$(cd -P "$(dirname "$0")" && pwd)"
 
 # Import functions
 . $DIR/_fn
-. $DIR/_env
 
 usage() {
 	cat <<-EOF
@@ -19,12 +18,8 @@ EOF
 exit 0
 }
 
-# Go to project root
-# cd $DIR
-# cd ..
-
 # Go to current directory
-CURR_FOLDER="$( pwd )"
+CURR_FOLDER="$(pwd)"
 cd $CURR_FOLDER
 
 OPT=development
@@ -32,38 +27,28 @@ OPT=development
 while getopts ":e:" o
 do
 	case ${o} in
-		e) OPT=$OPTARG ;;
+		e) [ $OPTARG = "staging" -o $OPTARG = "production" -o $OPTARG = "development" ] && OPT=$OPTARG || usage ;;
 		*) usage ;;
 	esac
 done
 
 # ENV File
-if test $OPT; then
-	load_env $CURR_FOLDER $OPT
-else
-	ok "Running without any env."
+load_env $OPT
+
+# Generate ENVs for frontend application
+if test "${REQUIRE_GEN:-0}" = "1"; then
+	gen_env "${CURR_FOLDER}/resource/env.js"
 fi
 
 ok "Watching folders: ${WATCH_FOLDERS}"
-# ok "Ignoring folders: ${WATCH_IGNORES}"
 ok "Running cmd: ${WATCH_CMD}"
 
-ENTR_FILE="$( which entr )"
+ENTR_FILE=$(which entr)
 
-if test -f ${ENTR_FILE}; then
-	find ${WATCH_FOLDERS} -type f | entr -r ${WATCH_CMD}
+if test -f "${ENTR_FILE}"; then
+	find $WATCH_FOLDERS -type f | entr -r $WATCH_CMD
 else
-	$(${WATCH_CMD})
+	$WATCH_CMD
 fi
-
-# if test -f ${ENTR_FILE}; then
-# 	if test -z "${WATCH_IGNORES}"; then
-# 		find ${WATCH_FOLDERS} -type f | entr -r ${WATCH_CMD}
-# 	else
-# 		find ${WATCH_FOLDERS} -type f -not -path "${WATCH_IGNORES}" | entr -r ${WATCH_CMD}
-# 	fi
-# else
-# 	$(${WATCH_CMD})
-# fi
 
 exit 0

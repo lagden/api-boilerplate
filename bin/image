@@ -1,10 +1,9 @@
 #!/bin/bash
 
-DIR="$( cd -P "$( dirname "$0" )" && pwd )"
+DIR="$(cd -P "$(dirname "$0")" && pwd)"
 
 # Import functions
 . $DIR/_fn
-. $DIR/_env
 
 usage() {
 	cat <<-EOF
@@ -19,11 +18,10 @@ EOF
 exit 0
 }
 
-# Go to project root
-cd $DIR
-cd ..
+# Go to current directory
+CURR_FOLDER="$(pwd)"
+cd $CURR_FOLDER
 
-CURR_FOLDER="$( pwd )"
 OPT="staging"
 
 while getopts ":e:" o
@@ -34,26 +32,24 @@ do
 	esac
 done
 
-if test -z ${OPT}; then
-	abort "Missing environment"
+# ENV File
+load_env $OPT
+
+# Generate ENVs for frontend application
+if test "${REQUIRE_GEN:-0}" = "1"; then
+	gen_env "${CURR_FOLDER}/resource/env.js"
 fi
 
-# ENV File
-load_env $CURR_FOLDER $OPT
-
 ## Variables
-REGISTRY_USER="$( cat ${CURR_FOLDER}/.registry-user )"
-REGISTRY_PASSWD="$( cat ${CURR_FOLDER}/.registry-passwd )"
+REGISTRY_USER="$(cat ${CURR_FOLDER}/.registry-user)"
+REGISTRY_PASSWD="$(cat ${CURR_FOLDER}/.registry-passwd)"
 TAG_IMAGE="${REGISTRY}/${IMAGE}:${VERSION}"
 
 ## Build
 docker build \
 	--build-arg NODE_ENV=${NODE_ENV} \
-	--build-arg APP_ENV=${APP_ENV} \
-	--build-arg APP_NS=${APP_NS} \
-	--build-arg VERSION=${VERSION} \
 	--compress --force-rm --no-cache . --tag $TAG_IMAGE
-test $? -ne 0 && abort "Falha no build da image --> ${build}" || ok "Build image ok --> ${build}"
+test $? -ne 0 && abort "Falha no build da image --> ${TAG_IMAGE}" || ok "Build image ok --> ${TAG_IMAGE}"
 
 ## Push (Send image to Registry)
 cat ${CURR_FOLDER}/.registry-passwd | docker login $REGISTRY --username $REGISTRY_USER --password-stdin

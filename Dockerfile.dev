@@ -1,17 +1,16 @@
 # entr
 FROM lagden/entr:4.7-alpine3.13 as entr
-
 LABEL autodelete="true"
 LABEL maintainer="lagden@gmail.com"
 
-# APP Dev
-FROM node:14.15-alpine3.12
+# -----
 
+# APP Dev
+FROM node:14.15-alpine3.13
 LABEL maintainer="lagden@gmail.com"
 
 ## If Docker Host is Mac or Windows
-ARG ARG_ENTR_INOTIFY_WORKAROUND=0
-RUN test $ARG_ENTR_INOTIFY_WORKAROUND -eq 1 && export ENTR_INOTIFY_WORKAROUND=1 || echo "ENTR_INOTIFY_WORKAROUND unnecessary"
+ENV ENTR_INOTIFY_WORKAROUND=1
 
 ARG NODE_ENV="production"
 ARG BASE="/home/node"
@@ -20,15 +19,14 @@ ENV NODE_ENV=$NODE_ENV
 ENV BASE=$BASE
 ENV BASE_APP=$BASE/app
 
-WORKDIR /usr/local/bin
-COPY --from=entr /usr/local/bin/entr .
+COPY --from=entr /usr/local/bin/entr /usr/local/bin/.
 
 WORKDIR $BASE
-
 ADD --chown=node:node . $BASE_APP
 
 WORKDIR $BASE_APP
-
-RUN npm ci --ignore-scripts
+# RUN npm i -g npm
+# RUN npm --version
+RUN npm ci --ignore-scripts --also=dev
 
 USER node

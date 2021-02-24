@@ -1,27 +1,22 @@
 #!/bin/bash
 
-DIR="$( cd -P "$( dirname "$0" )" && pwd )"
+DIR="$(cd -P "$(dirname "$0")" && pwd)"
 
 # Import functions
 . $DIR/_fn
-. $DIR/_env
 
-# Go to project root
-cd $DIR
-cd ..
+# Go to current directory
+CURR_FOLDER="$(pwd)"
+cd $CURR_FOLDER
 
-CURR_FOLDER="$( pwd )"
 OPT="development"
 COMPOSE_TEMPLATE="${CURR_FOLDER}/docker-compose.template.yml"
 COMPOSE_LOCAL="${CURR_FOLDER}/docker-compose.local.yml"
 
 export DOCKERFILE="${CURR_FOLDER}/Dockerfile.dev"
-export ARG_ENTR_INOTIFY_WORKAROUND=`test $(uname) = 'Linux' && echo 0 || echo 1`
-# export USER_ID="$( id -u )"
-# export GROUP_ID="$( id -g )"
 
 # ENV File
-load_env $CURR_FOLDER $OPT
+load_env $OPT
 
 docker-compose \
 	-f $COMPOSE_TEMPLATE \
@@ -30,6 +25,6 @@ docker-compose \
 	--volumes \
 	--remove-orphans
 
-test $? -ne 0 && abort "Docker Compose Failed" || ok "Stopped"
+test $? -ne 0 && abort "Docker Compose down failed" || ok "Stopped"
 
 exit 0

@@ -1,10 +1,9 @@
 #!/bin/bash
 
-DIR="$( cd -P "$( dirname "$0" )" && pwd )"
+DIR="$(cd -P "$(dirname "$0")" && pwd)"
 
 # Import functions
 . $DIR/_fn
-. $DIR/_env
 
 usage() {
 	cat <<-EOF
@@ -20,11 +19,10 @@ EOF
 exit 0
 }
 
-# Go to project root
-cd $DIR
-cd ..
+# Go to current directory
+CURR_FOLDER="$(pwd)"
+cd $CURR_FOLDER
 
-CURR_FOLDER="$( pwd )"
 BUILD=1
 OPT="staging"
 
@@ -32,31 +30,27 @@ while getopts ":ie:" o
 do
 	case ${o} in
 		i) BUILD=0 ;;
-		e) [ $OPTARG = "staging" -o $OPTARG = "production" ] && OPT=$OPTARG || usage ;;
+		e) test $OPTARG = "staging" -o $OPTARG = "production" && OPT=$OPTARG || usage ;;
 		*) usage ;;
 	esac
 done
 
-# if test -z ${OPT}; then
-# 	abort "Missing environment"
-# fi
-
 # ENV File
-load_env $CURR_FOLDER $OPT
+load_env $OPT
 
-if test -z ${DEPLOY_FOLDER}; then
+if test -z "${DEPLOY_FOLDER}"; then
 	abort "Missing DEPLOY_FOLDER"
 fi
 
 # BUILD IMAGE and PUSH
-if test $BUILD == 1; then
-	$CURR_FOLDER/bin/image -e $OPT
+if test "${BUILD}" = "1"; then
+	$DIR/image -e $OPT
 	test $? -ne 0 && abort "Image build fail" || ok "Image build done"
 fi
 
 # ENVSUBST
-ENVSUBST_FILE="$( which envsubst )"
-if test ! -f ${ENVSUBST_FILE}; then
+ENVSUBST_FILE="$(which envsubst)"
+if test ! -f "${ENVSUBST_FILE}"; then
 	abort "Missing envsubst"
 fi
 
@@ -66,7 +60,7 @@ COMPOSE_DEPLOY="${CURR_FOLDER}/docker-compose-${OPT}.yml"
 envsubst < $COMPOSE_TEMPLATE > $COMPOSE_DEPLOY
 
 # Sync
-rsync -avzlh --rsync-path="mkdir -p ${DEPLOY_FOLDER}; /usr/bin/rsync" -e ssh -r --delete --include-from $CURR_FOLDER/.rsync-include --exclude-from $CURR_FOLDER/.rsync-exclude $CURR_FOLDER/. $USER@$SERVER:$DEPLOY_FOLDER > $CURR_FOLDER/.rsync.log
+rsync -avzlh --rsync-path="mkdir -p ${DEPLOY_FOLDER}; /usr/bin/rsync" -e ssh -r --delete --include-from "${CURR_FOLDER}/.rsync-include" --exclude-from "${CURR_FOLDER}/.rsync-exclude" "${CURR_FOLDER}/." "${USER}@${SERVER}:${DEPLOY_FOLDER}" > "${CURR_FOLDER}/.rsync.log"
 test $? -ne 0 && abort "Rsync fail" || ok "Rsync done"
 
 # Run

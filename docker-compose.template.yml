@@ -14,10 +14,10 @@ services:
       NODE_ENV: ${NODE_ENV}
       APP_ENV: ${APP_ENV}
       APP_NS: ${APP_NS}
-      VERSION: ${VERSION}
       PORT: ${PORT}
       PORT_PUBLISHED: ${PORT_PUBLISHED}
-      # coloque seus envs
+      VERSION: ${VERSION}
+      # coloque mais envs...
     ports:
       - ${PORT_PUBLISHED}:${PORT}
     networks:
@@ -37,3 +37,7 @@ services:
 networks:
   net:
     name: ${NETWORK_NAME}
+
+# volumes:
+#   db:
+#     name: ${VOL_NAME}_db

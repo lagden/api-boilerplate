@@ -1,10 +1,17 @@
 'use strict'
 
 const hexId = require('@tadashi/hex-id')
-const request = require('supertest')
 const toPort = require('hash-to-port')
-const _app = require('../../server/app')
+const app = require('../../server/app')
 
-const app = request.agent(_app.listen(toPort(hexId())))
+const port = toPort(hexId())
 
-module.exports = app
+function server(p = port) {
+	return new Promise(resolve => {
+		app.listen(p, () => {
+			resolve(`http://127.0.0.1:${p}`)
+		})
+	})
+}
+
+module.exports = server

@@ -1,6 +1,7 @@
 # Api
 docker-compose-*
 .registry-*
+.env-local
 
 # Logs
 logs

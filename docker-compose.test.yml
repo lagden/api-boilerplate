@@ -3,5 +3,5 @@ services:
   app:
     command: >
       /bin/ash -c "
-        npm test
+        ${TEST_CMD}
       "

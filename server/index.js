@@ -7,14 +7,14 @@ const app = require('./app')
 const {
 	PORT = 5000,
 	PORT_PUBLISHED = 5000,
-	HOST = '0.0.0.0',
+	HOSTNAME = '0.0.0.0',
 	VERSION = 'dev'
 } = process.env
 
 let {
 	local,
 	network
-} = la({PORT_PUBLISHED, HOST})
+} = la({port: PORT_PUBLISHED, hostname: HOSTNAME})
 
 app.listen(PORT, () => {
 	debug.info('Server listening')

@@ -35,7 +35,7 @@ Existem algumas dependências.
 **Exemplo:**
 
 ```shell
-npx degit lagden/boilerplate-rest#main projeto
+npx degit lagden/boilerplate-rest projeto
 cd projeto
 npx degit lagden/boilerplate-bin/files#main bin
 npx degit lagden/boilerplate-envs/files#main ./ --force

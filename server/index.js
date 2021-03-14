@@ -11,15 +11,18 @@ const {
 	VERSION = 'dev'
 } = process.env
 
+let HOSTNAME_CUSTOM = process.env?.HOSTNAME_CUSTOM ?? HOSTNAME
+
 let {
 	local,
 	network
-} = la({port: PORT_PUBLISHED, hostname: HOSTNAME})
+} = la({port: PORT_PUBLISHED, hostname: HOSTNAME_CUSTOM})
 
 app.listen(PORT, () => {
 	debug.info('Server listening')
 	debug.info('----------------')
 	debug.info(`Local:    ${local}`)
 	debug.info(`Network:  ${network}`)
+	debug.info('----------------')
 	debug.info(`Version:  ${VERSION}`)
 })

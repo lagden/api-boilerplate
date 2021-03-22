@@ -23,6 +23,17 @@ Boilerplate para desenvolvimento de uma API REST.
 
 ## Instalação
 
+⚠️ **Importante**
+
+Instale o [Yarn 2 aka Berry](https://yarnpkg.com/getting-started/install).
+
+```
+npm install -g yarn
+yarn set version berry
+```
+
+---
+
 Use o [degit](https://github.com/Rich-Harris/degit) para fazer o `scaffolding` do projeto.
 
 Existem algumas dependências.
@@ -35,11 +46,12 @@ Existem algumas dependências.
 **Exemplo:**
 
 ```shell
-npx degit lagden/boilerplate-rest projeto
+yarn dlx degit lagden/boilerplate-svelte projeto
 cd projeto
-npx degit lagden/boilerplate-bin/files#main bin
-npx degit lagden/boilerplate-envs/files#main ./ --force
-npx degit lagden/boilerplate-docker-nodejs/files#main ./ --force
+yarn dlx degit lagden/boilerplate-bin/files#main bin
+yarn dlx degit lagden/boilerplate-envs/files#main ./ --force
+yarn dlx degit lagden/boilerplate-docker-nodejs/files#main ./ --force
+rm Dockerfile.front
 ```
 
 
@@ -94,16 +106,10 @@ bin/watch_local
 
 Como o [entr](https://github.com/eradman/entr) não roda no **Windows**, existe uma solução alternativa.
 
-Instale o `nodemon` global:
-
-```shell
-npm i -g nodemon
-```
-
 Crie o arquivo `.env-local` na raiz do projeto e insira:
 
 ```
-WATCH_LOCAL_CMD="nodemon -e js,json --watch server --exec npm start"
+WATCH_LOCAL_CMD="yarn dlx nodemon -e js,json --watch server --exec npm start"
 ```
 
 Então, execute o comando:

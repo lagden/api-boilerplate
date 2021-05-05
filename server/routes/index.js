@@ -1,19 +1,25 @@
-'use strict'
+import path from 'node:path'
+import {fileURLToPath} from 'node:url'
+import {readdirSync} from 'node:fs'
+import compose from 'koa-compose'
 
-const {readdirSync} = require('fs')
-const {join} = require('path')
-const compose = require('koa-compose')
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const pattern = /^_[\w-_]+\.js/
-const files = readdirSync(__dirname).filter(f => pattern.test(f)).map(f => join(__dirname, f))
+const files = readdirSync(__dirname).filter(f => pattern.test(f)).map(f => path.join(__dirname, f))
+
 const middleware = []
 
+const imports = []
 for (const file of files) {
-	const router = require(file)
+	imports.push(import(file))
+}
+
+for await (const {default: mod} of imports) {
 	middleware.push(
-		router.routes(),
-		router.allowedMethods({throw: true})
+		mod.routes(),
+		mod.allowedMethods({throw: true})
 	)
 }
 
-module.exports = compose(middleware)
+export default compose(middleware)

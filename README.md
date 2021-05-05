@@ -1,9 +1,12 @@
 # Boilerplate Rest
 
+[![Coverage Status][coveralls-img]][coveralls]
 [![XO code style][xo-img]][xo]
 
-[xo-img]:        https://img.shields.io/badge/code_style-XO-5ed9c7.svg
-[xo]:            https://github.com/sindresorhus/xo
+[coveralls-img]:   https://coveralls.io/repos/github/lagden/boilerplate-rest/badge.svg?branch=master
+[coveralls]:       https://coveralls.io/github/lagden/boilerplate-rest?branch=master
+[xo-img]:          https://img.shields.io/badge/code_style-XO-5ed9c7.svg
+[xo]:              https://github.com/sindresorhus/xo
 
 
 Boilerplate para desenvolvimento de uma API REST.
@@ -14,8 +17,8 @@ Boilerplate para desenvolvimento de uma API REST.
         - [entr](#entr)
         - [nodemon](#nodemon)
     - [teste](#teste)
-- [Imagem (docker)](#imagem-docker)
-- [Deploy (docker)](#deploy-docker)
+- [Imagem](#imagem)
+- [Deploy](#deploy)
 - [Exemplo](#exemplo)
 - [Middlewares](#middlewares)
 - [License](#license)
@@ -46,12 +49,11 @@ Existem algumas dependências.
 **Exemplo:**
 
 ```shell
-yarn dlx degit lagden/boilerplate-svelte projeto
+yarn dlx degit lagden/boilerplate-rest#master projeto
 cd projeto
 yarn dlx degit lagden/boilerplate-bin/files#main bin
 yarn dlx degit lagden/boilerplate-envs/files#main ./ --force
 yarn dlx degit lagden/boilerplate-docker-nodejs/files#main ./ --force
-rm Dockerfile.front
 ```
 
 
@@ -60,7 +62,7 @@ rm Dockerfile.front
 Após finalizado o `scaffolding` do projeto, instale os pacotes.
 
 ```shell
-bin/zera
+bin/node/zera
 ```
 
 Feito isso, o projeto está pronto para rodar.
@@ -68,22 +70,22 @@ Feito isso, o projeto está pronto para rodar.
 Se for rodar **local**, utilize:
 
 ```shell
-bin/start_local
+bin/local/start
 ```
 
 Se for rodar via **docker**, utilize:
 
 ```shell
-bin/start
+bin/docker/start
 ```
 
 ⚠️ **Ressalvas**
 
 No **docker**, caso seja instalado um novo pacote, é necessário fazer o `build` da imagem novamente.  
-Pare o container (`command+c` ou `control+c`) e rode novamente passando o parâmetro `-b`:
+Pare o container (`bin/docker/stop` ou `command + c` ou `control + c`) e rode novamente passando o parâmetro `-b`:
 
 ```shell
-bin/start -b
+bin/docker/start -b
 ```
 
 
@@ -95,10 +97,10 @@ Rodando via **docker** isso ocorre por padrão, mas **local** é necessário faz
 
 #### entr
 
-Se estiver rodando em **BSD**, **Mac OS**, e **Linux**, basta instalar o [entr](https://github.com/eradman/entr) e executar:
+Se estiver rodando em **BSD** ou **Mac OS** ou **Linux**, basta instalar o [entr](https://github.com/eradman/entr) e executar:
 
 ```shell
-bin/watch_local
+bin/local/watch
 ```
 
 
@@ -112,10 +114,20 @@ Crie o arquivo `.env-local` na raiz do projeto e insira:
 WATCH_LOCAL_CMD="yarn dlx nodemon -e js,json --watch server --exec npm start"
 ```
 
+⚠️ **Ressalvas**
+
+Pode instalar global também e configurar da seguinte forma:
+
+```
+WATCH_LOCAL_CMD="nodemon -e js,json --watch server --exec npm start"
+```
+
+---
+
 Então, execute o comando:
 
 ```shell
-bin/watch_local
+bin/local/watch
 ```
 
 
@@ -126,19 +138,19 @@ Para executar os testes.
 **local:**
 
 ```shell
-bin/test_local
+bin/local/test
 ```
 
 **docker:**
 
 ```shell
-bin/test -b
+bin/docker/test -s app
 ```
 
 
-## Imagem (docker)
+## Imagem
 
-Crie os arquivos de usuário e senha do seu **registry**.
+Crie os arquivos de usuário e senha do **registry** que será utilizado.
 
 ```shell
 echo 'username' > .registry-user
@@ -149,7 +161,7 @@ Verifique as suas variáveis de ambiente `.env-*`.
 E para fazer o `push` da imagem de sua aplicação, execute:
 
 ```shell
-bin/image -e production
+bin/docker/image -e production
 ```
 
 ⚠️ **Ressalvas**
@@ -157,36 +169,36 @@ bin/image -e production
 Se o parâmetro `-e` não for definido, o padrão é `staging`.
 
 
-## Deploy (docker)
+## Deploy
 
 Para executar o **deploy** é necessário alguns binários instalados:
 
-- **envsubst**
-- **rsync**
+- **envsubst** by Bruno Haible
+- **rsync** by Andrew Tridgell, Wayne Davison and others
 
 O fluxo do sistema de **deploy** é simples:
 
 1. Carrega as variáveis de ambiente (`staging` ou `production`)
-2. Executa o script `bin/image` (se passado o parâmetro `-i` esse processo é ignorado)
-3. Cria o arquivo `docker-compose-{staging|production}.yml` utilizando o **envsubst**
+2. Executa o script `bin/docker/image` (se passado o parâmetro `-i` esse processo é ignorado)
+3. Cria o arquivo `docker-compose-{VERSION}.yml` utilizando o **envsubst**
 4. Envia os arquivos para o servidor via **rsync**
 5. Executa o `docker stack deploy` no servidor
 
 ```shell
-bin/deploy -e production
+bin/docker/deploy -e production
 ```
 
 
 ## Exemplo
 
-Chamada de exemplo via **curl**.
+Chamada de exemplo da API via **curl**.
 
 ```shell
 curl 'http://[::1]:5000/'
 ```
 
 ```shell
-curl 'http://[::1]:5000/Api'
+curl 'http://[::1]:5000/API'
 ```
 
 ```shell

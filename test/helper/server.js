@@ -1,8 +1,6 @@
-'use strict'
-
-const hexId = require('@tadashi/hex-id')
-const toPort = require('hash-to-port')
-const app = require('../../server/app')
+import hexId from '@tadashi/hex-id'
+import toPort from 'hash-to-port'
+import app from '../../server/app.js'
 
 const port = toPort(hexId())
 
@@ -14,4 +12,4 @@ function server(p = port) {
 	})
 }
 
-module.exports = server
+export default server

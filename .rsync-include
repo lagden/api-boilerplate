@@ -1,2 +1,1 @@
-/docker-compose-staging.yml
-/docker-compose-production.yml
+/docker-compose-*.yml

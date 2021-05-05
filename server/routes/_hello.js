@@ -1,8 +1,6 @@
-'use strict'
-
-const Router = require('@koa/router')
-const bodyparser = require('koa-bodyparser')
-const debug = require('../lib/debug')
+import bodyparser from 'koa-bodyparser'
+import Router from '@koa/router'
+import * as debug from '../lib/debug.js'
 
 const router = new Router()
 
@@ -36,4 +34,4 @@ router
 	.get(['/', '/:name'], hello)
 	.post('/echo', bodyparser(), echo)
 
-module.exports = router
+export default router

@@ -1,8 +1,6 @@
-'use strict'
-
-const la = require('local-access')
-const debug = require('./lib/debug')
-const app = require('./app')
+import la from 'local-access'
+import app from './app.js'
+import * as debug from './lib/debug.js'
 
 const {
 	PORT = 5000,
@@ -11,9 +9,9 @@ const {
 	VERSION = 'dev'
 } = process.env
 
-let HOSTNAME_CUSTOM = process.env?.HOSTNAME_CUSTOM ?? HOSTNAME
+const HOSTNAME_CUSTOM = process.env?.HOSTNAME_CUSTOM ?? HOSTNAME
 
-let {
+const {
 	local,
 	network
 } = la({port: PORT_PUBLISHED, hostname: HOSTNAME_CUSTOM})

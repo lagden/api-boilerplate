@@ -1,8 +1,6 @@
-'use strict'
-
-const test = require('ava')
-const got = require('got')
-const server = require('./helper/server')
+import test from 'ava'
+import got from 'got'
+import server from './helper/server.js'
 
 test.before(async t => {
 	t.context.baseUrl = await server()
@@ -14,29 +12,27 @@ test('hello', async t => {
 		responseType: 'json'
 	})
 
-	const {hello} = response.body.data
 	t.is(response.statusCode, 200)
-	t.is(hello, 'Hello World')
+	t.snapshot(response.body)
 })
 
 test('hello boilerplate', async t => {
-	const r = await got.get(`${t.context.baseUrl}/boilerplate`, {
+	const response = await got.get(`${t.context.baseUrl}/boilerplate`, {
 		throwHttpErrors: false,
 		responseType: 'json'
 	})
 
-	const {hello} = r.body.data
-	t.is(r.statusCode, 200)
-	t.is(hello, 'Hello boilerplate')
+	t.is(response.statusCode, 200)
+	t.snapshot(response.body)
 })
 
 test('echo', async t => {
-	const r = await got.post(`${t.context.baseUrl}/echo`, {
+	const response = await got.post(`${t.context.baseUrl}/echo`, {
 		throwHttpErrors: false,
 		responseType: 'json',
 		json: {xxx: true}
 	})
 
-	t.is(r.statusCode, 200)
-	t.true(r.body.xxx)
+	t.is(response.statusCode, 200)
+	t.snapshot(response.body)
 })

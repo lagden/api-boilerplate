@@ -26,7 +26,7 @@ test('hello boilerplate', async t => {
 	t.snapshot(response.body)
 })
 
-test('echo', async t => {
+test('echo json', async t => {
 	const response = await got.post(`${t.context.baseUrl}/echo`, {
 		throwHttpErrors: false,
 		responseType: 'json',

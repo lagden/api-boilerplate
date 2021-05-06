@@ -19,7 +19,7 @@
   "scripts": {
     "eslint": "eslint --config .eslintrc.cjs --ext .js --ignore-path .gitignore .",
     "pretest": "npm run eslint",
-    "test": "c8 --reporter=text --reporter=text-summary --reporter=lcov ava --serial",
+    "test": "c8 --reporter=text --reporter=text-summary --reporter=lcov ava",
     "dev": "run-s test start",
     "start": "node server"
   },

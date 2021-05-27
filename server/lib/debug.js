@@ -1,6 +1,6 @@
 import debug from 'debug'
 
-const {DEBUG_PREFIX = 'boilerplate_gql'} = process.env
+const {DEBUG_PREFIX = 'boilerplate'} = process.env
 
 const error = debug(`${DEBUG_PREFIX}:error`)
 const info = debug(`${DEBUG_PREFIX}:info`)

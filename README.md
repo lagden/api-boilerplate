@@ -150,7 +150,7 @@ bin/docker/test -s app
 
 ## Imagem
 
-Crie os arquivos de usuário e senha do **registry** que será utilizado.
+Crie os arquivos de usuário e senha do **registry** que serão utilizados.
 
 ```shell
 echo 'username' > .registry-user

@@ -15,5 +15,5 @@ error.color = debug.colors[colors[2]]
 export {
 	error,
 	info,
-	log
+	log,
 }

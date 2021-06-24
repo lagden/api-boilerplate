@@ -9,7 +9,7 @@ test.before(async t => {
 test('hello', async t => {
 	const response = await got.get(`${t.context.baseUrl}/`, {
 		throwHttpErrors: false,
-		responseType: 'json'
+		responseType: 'json',
 	})
 
 	t.is(response.statusCode, 200)
@@ -19,7 +19,7 @@ test('hello', async t => {
 test('hello boilerplate', async t => {
 	const response = await got.get(`${t.context.baseUrl}/boilerplate`, {
 		throwHttpErrors: false,
-		responseType: 'json'
+		responseType: 'json',
 	})
 
 	t.is(response.statusCode, 200)
@@ -30,7 +30,7 @@ test('echo json', async t => {
 	const response = await got.post(`${t.context.baseUrl}/echo`, {
 		throwHttpErrors: false,
 		responseType: 'json',
-		json: {xxx: true}
+		json: {xxx: true},
 	})
 
 	t.is(response.statusCode, 200)

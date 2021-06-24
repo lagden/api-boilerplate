@@ -7,7 +7,7 @@ const router = new Router()
 // GET
 function hello(ctx) {
 	const {
-		name = 'World'
+		name = 'World',
 	} = ctx.params
 
 	// Debug de exemplo
@@ -15,15 +15,15 @@ function hello(ctx) {
 
 	ctx.body = {
 		data: {
-			hello: `Hello ${name}`
-		}
+			hello: `Hello ${name}`,
+		},
 	}
 }
 
 // POST
 function echo(ctx) {
 	const {
-		body
+		body,
 	} = ctx.request
 
 	// echo do post

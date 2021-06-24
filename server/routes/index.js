@@ -18,7 +18,7 @@ for (const file of files) {
 for await (const {default: mod} of imports) {
 	middleware.push(
 		mod.routes(),
-		mod.allowedMethods({throw: true})
+		mod.allowedMethods({throw: true}),
 	)
 }
 

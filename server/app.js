@@ -5,8 +5,8 @@ import * as debug from './lib/debug.js'
 const app = base({
 	error: true,
 	cors: {
-		credentials: true
-	}
+		credentials: true,
+	},
 })
 
 app
